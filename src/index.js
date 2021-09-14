@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import store from './Redux/store';
+import { Provider } from "react-redux";
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './App.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+
+
+const s = store();
+
+s.subscribe(() => {
+  localStorage.setItem("Books", JSON.stringify(s.getState()));
+
+});
+
+const render = (
+  <Provider store={s}>
+    <App/>
+  </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(render, document.getElementById("root"));
+
